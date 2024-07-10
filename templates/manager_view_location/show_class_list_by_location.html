@@ -1,0 +1,60 @@
+{% extends 'components/base.html' %}
+{% block title %} Class by Location {% endblock %}
+{% block content %}
+
+<div class="container mt-5 mb-5">
+  <h1>Class List</h1>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% if class_list %}
+    {% for class_item in class_list %}
+    <div class="col">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ class_item[1] }}</h5>
+          <p class="card-text">{{ class_item[2] }}</p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <i class="fas fa-id-badge"></i> ID: {{ class_item[0] }}
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-file-alt"></i> Course Type ID: {{ class_item[3] }}
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-chalkboard-teacher"></i> Trainer ID: {{ class_item[4] }}
+            </li>
+            <li class="list-group-item">
+              <i class="far fa-clock"></i> Schedule Time: {{ class_item[5] }}
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-map-marker-alt"></i> Location ID: {{ class_item[6] }}
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-dollar-sign"></i> Price: {{ class_item[7] }}
+            </li>
+            <li class="list-group-item">
+              <i class="fas fa-users"></i> Capacity: {{ class_item[8] }}
+            </li>
+          </ul>
+        </div>
+        <div class="card-footer">
+
+          <a href="{{ url_for('member.class_detail', class_id=class_item[0]) }}"><i class="fas fa-info-circle"></i> More
+            Info</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-text">No classes available at this location.</p>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

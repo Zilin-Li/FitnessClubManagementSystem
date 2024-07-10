@@ -1,0 +1,33 @@
+{% extends 'components/base.html' %}
+{% block title %}Member Detail{% endblock %}
+{% block content %}
+
+<div class="container my-4 py-3 my-5" style="background-color: #f8f9fa; border-radius: 8px; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);">
+  <div class="mb-4">
+    <a href="{{ url_for('manager_member.display_member') }}" class="btn btn-primary my-3 "><strong>← Back to List</strong></a>
+  </div>
+  <h1 class="text-center mb-4" style="font-weight: bold; color: #0d6efd;">Member Details</h1>
+  <div class="row g-4">
+    <div class="col-md-4 text-center">
+        {% if member_detail[9] %}
+          <img src="{{url_for('static', filename='images/member/' + member_detail[9])}}" alt="Member Photo" class="img-fluid rounded-circle shadow" style="width: 200px; height: 200px; border: 5px solid #0d6efd;">
+        {% else %}
+          <img src="{{ url_for('static', filename='images/member/default.png') }}"  alt="Member Photo" class="img-fluid rounded-circle shadow" style="width: 200px; height: 200px; border: 5px solid #0d6efd;">
+        {% endif %}
+    </div>
+    <div class="col-md-8">
+      <div style="background-color: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);">
+        <h2 style="color: #0d6efd;">{{ member_detail[1] }}</h2>
+        <p><strong>Name:</strong>{{ member_detail[3]| default('', true) }} {{ member_detail[4] | default('', true)}} </p>
+        <p><strong>Email:</strong> {{ member_detail[2] | default('', true)}}</p>
+        <p><strong>Position:</strong> {{ member_detail[5] | default('', true)}}</p>
+        <p><strong>Phone Number:</strong> {{ member_detail[6] | default('', true)}}</p>
+        <p><strong>Address:</strong> {{ member_detail[7]| default('', true) }}</p>
+        <p><strong>Date of Birth:</strong> {{ member_detail[8] | default('', true)}}</p>
+        <p><strong>Status:</strong> <span class="badge {{'bg-success' if member_detail[10] == 1 else 'bg-secondary'}}">{{ 'Active' if member_detail[10] == 1 else 'Inactive' }}</span></p>
+        <p><strong>Health Imformation:</strong> <div style="white-space: pre-wrap;">{{ member_detail[11] | default('', true)}}</div></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

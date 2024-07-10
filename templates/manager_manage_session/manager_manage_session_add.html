@@ -1,0 +1,80 @@
+{% extends 'components/base.html' %}
+{% block title %}Add Session Details{% endblock %}
+{% block content %}
+{% include 'components/error.html' %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white">
+                    <h4>Add Session Details</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST"
+                        action="{{ url_for('manager_manage_session.add_session_submit') }}"
+                        enctype="multipart/form-data">
+                       
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="trainer_id" class="form-label"><strong>Trainer</strong><span style="color: red"> * </span></label>
+                                <select class="form-select" id="trainer_id" name="trainer_id"  required>
+                                    <option selected disabled value="">Choose trainer....</option>
+                                    {%for trainer in trainer_list%}
+                                    <option value={{trainer[10]}}>{{trainer[3]}} {{trainer[4]}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="sessionname" class="form-label"><strong>Session Name</strong><span style="color: red"> * </span></label>
+                                <input type="text" class="form-control" id="sessionname" name="sessionname" required>
+                            </div>                                                        
+                            <div class="col-md-6 mb-3">
+                                <label for="course_type_id" class="form-label"><strong>Type</strong><span style="color: red"> * </span></label>
+                                <select class="form-select" id="course_type_id" name="course_type_id"  required>
+                                    <option selected value="2">Session</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="schedule_time" class="form-label"><strong>Schedule time</strong><span style="color: red"> * </span></label>
+                                <input type="datetime-local" class="form-control" id="schedule_time" name="schedule_time" min="{{formatted_now}}" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="location_id" class="form-label"><strong>Location</strong><span style="color: red"> * </span></label>
+                                <select class="form-select" id="location_id" name="location_id" required>
+                                    <option selected disabled value="">Choose Location....</option>
+                                    {%for location in location_list%}
+                                    <option value={{location[0]}}>{{location[1]}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="price" class="form-label"><strong>Price</strong><span style="color: red"> * </span></label>
+                                <input type="number" class="form-control" id="price" name="price" value="50" readonly required>
+                            </div> 
+                            <div class="col-md-6 mb-3">
+                                <label for="capacity" class="form-label"><strong>Maximum number of student</strong><span style="color: red"> * </span></label>
+                                <input type="number" class="form-control" id="capacity" name="capacity"  value="1" readonly  required>
+                            </div> 
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="description" class="form-label"><strong>Description</strong></label>
+                            <textarea class="form-control" id="description" name="description" rows="4" style="min-height: 100px; overflow-y: auto;"></textarea>
+                        </div>
+                        <div class="mb-4 d-flex justify-content-between">
+                            <a href="{{ url_for('manager_manage_session.display_session') }}"
+                                class="btn btn-primary my-3 "><strong>← Back to List</strong></a>
+                            <button type="submit" class="btn btn-success my-3"><strong>Create New Session</strong>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends 'components/base.html' %}
+{% block title %}Edit Member Details{% endblock %}
+{% block content %}
+{% include 'components/error.html' %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white">
+                    <h4>Edit Member Details</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST"
+                        action="{{ url_for('manager_member.update_member_submit', current_user_id=member_detail[0]) }}"
+                        enctype="multipart/form-data">
+                        <div class="text-center mb-4">
+                            {% if member_detail[9] %}
+                            <img src="{{ url_for('static', filename='images/member/' + member_detail[9]) }}"
+                                alt="Profile Image" class="img-thumbnail rounded-circle"
+                                style="width: 200px; height: 200px;">
+                            {% else %}
+                            <img src="{{ url_for('static', filename='images/member/default.png') }}" alt="Profile Image"
+                                class="img-thumbnail rounded-circle" style="width: 200px; height: 200px;">
+                            {% endif %}
+
+                            <div class="mt-2 text-start">
+                                <label for="profile_image" class="form-label"><strong>Change Profile
+                                        Image</strong></label>
+                                <input type="file" class="form-control" id="profile_image" name="profile_image">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="username" class="form-label"><strong>Username (cannot be
+                                        changed)</strong></label>
+                                <input type="text" class="form-control" id="username" value="{{ member_detail[1] }}"
+                                    disabled>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="status" class="form-label"><strong>Status</strong></label>
+                                <select class="form-select" id="status" name="status">
+                                    <option value="Active" {% if member_detail[10] == 1 %}selected{% endif %}>Active</option>
+                                    <option value="Inactive" {% if member_detail[10] != 1 %}selected{% endif %}>Inactive</option>
+                                </select>
+                            </div>
+                            <!-- <div class="col-md-6 mb-3">
+                                <label for="new_password" class="form-label"><strong>Password</strong></label>
+                                <input type="password" class="form-control" id="new_password" name="new_password">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="confirm_password" class="form-label"><strong>Confirm
+                                        Password</strong></label>
+                                <input type="password" class="form-control" id="confirm_password"
+                                    name="confirm_password">
+                            </div> -->
+                            <div class="col-md-6 mb-3">
+                                <label for="first_name" class="form-label"><strong>First Name</strong></label>
+                                <input type="text" class="form-control" id="first_name" name="first_name"
+                                    value="{{ member_detail[3] |default('', true) }}" maxlength="50" pattern="[A-Za-z]+">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="last_name" class="form-label"><strong>Last Name</strong></label>
+                                <input type="text" class="form-control" id="last_name" name="last_name"
+                                    value="{{ member_detail[4] |default('', true) }}" maxlength="50" pattern="[A-Za-z]+">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="position" class="form-label"><strong>Position</strong></label>
+                                <input type="text" class="form-control" id="position" name="position"
+                                    value="{{ member_detail[5] |default('', true) }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label"><strong>Phone</strong></label>
+                                <input type="text" class="form-control" id="phone" name="phone_number"
+                                    value="{{ member_detail[6] |default('', true) }}"  pattern="[0-9]+" maxlength="20" >
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="address" class="form-label"><strong>Address</strong></label>
+                                <input type="text" class="form-control" id="address" name="address"
+                                    value="{{ member_detail[7] |default('', true) }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="birth_date" class="form-label"><strong>Date of Birth</strong></label>
+                                <input type="date" class="form-control" id="birth_date" name="birth_date"
+                                    value="{{ member_detail[8] }}">
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="email" class="form-label"><strong>Email:</strong></label>
+                            <input type="email" class="form-control" id="email" name="email"
+                                value="{{ member_detail[2] |default('', true)}}">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="health_info" class="form-label"><strong>Health Information</strong></label>
+                            <textarea class="form-control" id="health_info" name="health_info" rows="4" style="min-height: 100px; overflow-y: auto;">{{ member_detail[11] | default('', true)}}</textarea>
+                        </div>
+
+                        <div class="mb-4 d-flex justify-content-between">
+                            <a href="{{ url_for('manager_member.display_member') }}"
+                                class="btn btn-primary my-3 "><strong>← Back to List</strong></a>
+                            <button type="submit" class="btn btn-success my-3"><strong>Update Details</strong>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

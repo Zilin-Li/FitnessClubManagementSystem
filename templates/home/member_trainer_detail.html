@@ -1,0 +1,63 @@
+{% extends 'components/base.html' %}
+{% block title %}Trainer Detail{% endblock %}
+{% block content %}
+{% include 'components/error.html' %}
+<div style="background-color: #f8f9fa; padding: 20px 0; min-height: 100vh;">
+    <div class="container py-5"
+        style="max-width: 80vw; min-height: 80vh; margin-top: 2rem;padding: 2rem; background-color: white; border-radius: 8px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-5">
+                    <img src="{{ url_for('static', filename='images/trainer/' + trainer_info_list[8]) }}"
+                        class="img-fluid rounded-circle" alt="Trainer Profile Image" style="height: 500px; object-fit: contain;">
+                </div>
+                <div class="col-md-7 d-flex flex-column justify-content-between" style="min-height: 400px;">
+                    <div>
+                        <h2 class="display-4 my-3 fw-bold">{{ trainer_info_list[4] }} {{ trainer_info_list[5] }}</h2> 
+                        <h5 class="lead my-3">{{ trainer_info_list[6] }}</h5> 
+                        <p class="lead my-3">{{ trainer_info_list[9] }}</p>
+                        <ul class="list-unstyled my-3">
+                            <li class="my-2"><strong>Email:</strong> {{ trainer_info_list[2] }}</li>
+                            <li class="my-2"><strong>Phone:</strong> {{ trainer_info_list[7] }}</li>
+                        </ul>
+                    </div>
+                    <div class="text-end " style="padding: 20px;">
+                        <a href="{{ url_for('home.view_trainer') }}" class="btn btn-primary fw-bold" style="width: fit-content;">Return to Trainer List</a>
+                    </div>
+                </div>
+                      
+            </div>
+            <hr style="border: 0; height: 2px; background-image: linear-gradient(to right, #f8f9fa, #007bff, #f8f9fa);">
+
+            <h3 class="mt-4 mb-4 text-center" style="color: #0056b3;">Session Courses</h3>
+            <div class="list-group">
+                {% for session in trainer_session_list %}
+                <div class="list-group-item list-group-item-action shadow-lg mb-3 rounded" style="background: #f8f9fa;">
+                    <div class="row g-0 align-items-center">
+                        <div class="col-md-9 p-3">
+                            <a href="{{ url_for('member.class_detail', class_id=session[5]) }}"><h5 class="mb-1" style="color: #007bff;"><i class="bi bi-journal-bookmark-fill me-2"></i>{{ session[0] }}</h5></a>
+                            <p class="mb-2">{{ session[1] }}</p>
+                            <p class="mb-0">
+                                <small class="me-3"><i class="bi bi-calendar-event-fill me-1"></i>{{ session[2].strftime('%Y-%m-%d %H:%M') }}</small>
+                                <small class="me-3"><i class="bi bi-geo-alt-fill me-1"></i>{{ session[4] }}</small>
+                                <small><i class="bi bi-cash-stack me-1"></i>Price: ${{ session[3] }}</small>
+                            </p>
+                        </div>
+                        <div class="col-md-3 text-end pe-3">
+                            {% if session[6] == 1 %}
+                                <span class="badge bg-danger">Unavailable</span>
+                            {% else %}
+                                <span class="badge bg-success">Available</span>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}

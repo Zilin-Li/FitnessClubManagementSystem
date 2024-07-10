@@ -1,0 +1,56 @@
+{% extends 'components/base.html' %}
+{% block title %} Record Attendance of Registered Member{% endblock %}
+{% block content %}
+{% include 'components/error.html' %}
+<div class="container my-4 py-3" style="background-color: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+  <h1 class="text-center mb-4">Update Attendance</h1>
+  
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Photo</th>
+            <th scope="col">User name</th>
+            <th scope="col">Name</th>
+            <th scope="col">Status</th>
+            <th scope="col">Record attendance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for member in member_list %}
+          <form method="POST" action="{{ url_for('manager_record_attendance.update_attendance_submit', current_course_id=current_course_id) }}" enctype="multipart/form-data">
+          <tr>
+            <th scope="row">{{ loop.index }}</th>
+            <td>
+              {% if member[0] %}
+                  <img src="{{ url_for('static', filename='images/member/' + member[0]) }}" alt="Member Photo" class="img-fluid" style="width: 60px; height: auto; border-radius: 30px;">
+              {% else %}
+                  <img src="{{ url_for('static', filename='images/member/default.png') }}" alt="Member Photo" class="img-fluid" style="width: 60px; height: auto; border-radius: 30px;">
+              {% endif %}
+          </td>
+            <td>{{ member[1]| default('', true) }}</td>
+            <td>{{ member[2] | default('', true)}} {{ member[3] | default('', true)}}</td>
+            <td><span class="badge {{'bg-success' if member[4] == 1 else 'bg-secondary'}}">{{ 'Attended' if member[4] == 1 else 'No show' }}</span></td>
+            <td>
+              <input type="hidden" id="bookingid" name="bookingid" value="{{member[5]}}">
+              <select class="form-select" id="is_attend" name="is_attend" onchange="this.form.submit()">
+                <option value="1" {% if member[4] == 1 %}selected{% endif %}>Attended</option>
+                <option value="0" {% if member[4] != 1 %}selected{% endif %}>No show</option>
+              </select>
+            </td>
+          </tr>
+          </form>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="mb-4 d-flex justify-content-between">
+      <a href="{{ url_for('manager_record_attendance.display_course') }}"
+          class="btn btn-primary my-3 "><strong>← Back to List</strong></a>
+      
+      </button>
+    </div>
+  
+</div>
+{% endblock %}

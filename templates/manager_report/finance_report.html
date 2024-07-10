@@ -1,0 +1,81 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+<script src="https://kit.fontawesome.com/9d1d9a82d2.js" crossorigin="anonymous"></script>
+
+
+{% extends 'components/base.html' %}
+
+{% block title %}
+Chat Report
+{% endblock %}
+
+{% block content %}
+<h2 class="text-center py-3">Finance Report</h2>
+
+<div class="card container col-10">
+  <div class="row">
+      <div class="col-1"></div>
+        <canvas id="chart"></canvas>
+      </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+    <script>
+        var report_label_array = [
+            {% for item in report_label %}
+                "{{ item }}"{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ];
+        var subscription_amout_array = [
+            {% for item in subscription_amout %}
+                "{{ item }}"{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ];
+        var session_amout_array = [
+            {% for item in session_amout %}
+                "{{ item }}"{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ];
+      const ctx = document.getElementById("chart").getContext('2d');
+      const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: report_label_array,
+          datasets: [{
+            label: 'Subscription',
+            backgroundColor: 'rgba(161, 198, 247, 1)',
+            borderColor: 'rgb(47, 128, 237)',
+            data: subscription_amout_array,
+          },{
+            label: 'Personal Session',
+            backgroundColor: 'rgba(255, 192, 203, 1)',
+            borderColor: 'rgb(205, 122, 103, 1)',
+            data: session_amout_array,
+          }]
+        },
+        options: {
+           scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: 'New Zealand Dollars'
+                }
+            }],
+            xAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Months and Revenue'
+                }
+            }]
+        }
+        },
+      });
+</script>
+{% endblock %}

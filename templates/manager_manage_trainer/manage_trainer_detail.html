@@ -1,0 +1,31 @@
+{% extends 'components/base.html' %}
+{% block title %}Trainer Detail{% endblock %}
+{% block content %}
+
+<div class="container my-4 py-3 my-5" style="background-color: #f8f9fa; border-radius: 8px; box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);">
+  <div class="mb-4">
+    <a href="{{ url_for('manage_trainer.display_trainer') }}" class="btn btn-primary my-3 "><strong>← Back to List</strong></a>
+  </div>
+  <h1 class="text-center mb-4" style="font-weight: bold; color: #0d6efd;">Trainer Details</h1>
+  <div class="row g-4">
+    <div class="col-md-4 text-center">
+        {% if trainer_detail[7] %}
+          <img src="{{url_for('static', filename='images/trainer/' + trainer_detail[7])}}" alt="Trainer Photo" class="img-fluid rounded-circle shadow" style="width: 220px; height: 300px;">
+        {% else %}
+          <img src="{{ url_for('static', filename='images/trainer/default.png') }}"  alt="Trainer Photo" class="img-fluid rounded-circle shadow" style="width: 220px; height: 300px;">
+        {% endif %}
+    </div>
+    <div class="col-md-8">
+      <div style="background-color: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);">
+        <h2 style="color: #0d6efd;">{{ trainer_detail[1] }}</h2>
+        <p><strong>Name:</strong>{{ trainer_detail[3]| default('', true) }} {{ trainer_detail[4] | default('', true)}} </p>
+        <p><strong>Email:</strong> {{ trainer_detail[2] | default('', true)}}</p>
+        <p><strong>Title:</strong> {{ trainer_detail[5] | default('', true)}}</p>
+        <p><strong>Phone Number:</strong> {{ trainer_detail[6] | default('', true)}}</p>
+        <p><strong>Description:</strong> {{ trainer_detail[8]| default('', true) }}</p>
+        <p><strong>Status:</strong> <span class="badge {{'bg-success' if trainer_detail[9] == 1 else 'bg-secondary'}}">{{ 'Active' if trainer_detail[9] == 1 else 'Inactive' }}</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

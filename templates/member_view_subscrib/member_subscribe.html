@@ -1,0 +1,61 @@
+{% extends 'components/base.html' %}
+{% block title %}My subscriptions{% endblock %}
+{% block content %}
+{% include 'components/error.html' %}
+<div class="min-vh-100 d-flex justify-content-center" style="background: linear-gradient(135deg, #6ab9ac 0%, #74ABE2 100%);padding-top:5%; margin-top:0">
+    <div style="width: 100%; max-width: 80vw;">
+        <div class="card border-0" style="background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border-radius: 15px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);">
+            <div class="card-body py-5 px-4">
+                <h5 class="card-title text-uppercase mb-4 text-center" style="color: #0056b3; font-weight: 700; font-size: 1.5rem;">My subscriptions</h5>
+                <div class="mb-4 text-end">
+    
+                    <a href="{{ url_for('auth.subscribe')}}" class="btn btn-success">Renew My Subscription</a>
+                  </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive text-center">
+                            <table class="table table-striped table-bordered table-hover align-middle">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col">Subscription</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Start Date</th>
+                                        <th scope="col">End Date</th>
+                                        <th scope="col">Initial Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for subscription in subscriptions %}
+                                    <tr>
+                                        {% if subscription[1] == 1 %}
+                                            <td>AK Fitness - Personal Monthly</td>
+                                        {% elif subscription[1] == 2 %}
+                                            <td>AK Fitness - Personal Quarterly</td>
+                                        {% elif subscription[1] == 3 %}
+                                            <td>AK Fitness - Personal Semiannual</td>
+                                        {% elif subscription[1] == 4 %}
+                                            <td>AK Fitness - Personal Yearly</td>
+                                        {% endif %}
+                        
+                                        <td>
+                                            <span class="badge {{ 'bg-success' if subscription[6] == 'Active' else 'bg-danger' }}">{{ subscription[6] }}</span>
+                                        </td>
+                        
+                                        <td>{{ subscription[4] }}</td>
+                                        <td>{{ subscription[5] }}</td>
+                                        <td>$ {{ subscription[3] }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+            </div>
+        </div>
+    </div>
+
+                            
+
+</div>
+{% endblock %}

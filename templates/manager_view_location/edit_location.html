@@ -1,0 +1,29 @@
+{% extends 'components/base.html' %}
+
+{% block title %}
+List Locations
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+  <h1>Edit Location</h1>
+  <!-- error message -->
+  {% include 'components/error.html' %}
+  {% if locations %}
+  <form action="{{ url_for('manager.edit_location', location_id=locations[0][0]) }}" method="post">
+    <div class="mb-3">
+      <label for="location_name" class="form-label">Location Name:</label>
+      <input type="text" class="form-control" id="location_name" name="location_name" value="{{ locations[0][1] }}">
+    </div>
+    <div class="mb-3">
+      <label for="location_description" class="form-label">Location Address</label>
+      <textarea class="form-control" id="location_description"
+        name="location_description">{{ locations[0][2] }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  {% else %}
+  <p>No location found.</p>
+  {% endif %}
+</div>
+{% endblock %}

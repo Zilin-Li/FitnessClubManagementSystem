@@ -1,0 +1,212 @@
+{% block content %}
+<div class="modal fade" id="modalNewPaymentSystem" tabindex="-1" aria-labelledby="newPaymentSystemLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 font-weight-bold" id="newPaymentSystemLabel">Make a payment</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row" style="background-color: rgba(224, 94, 94, 0.2);">
+                        <div class="p-3">
+                            <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <button class="nav-link active" id="nav-credit-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-credit" type="button" role="tab" aria-controls="nav-credit"
+                                        aria-selected="true">Credit card</button>
+                                    <button class="nav-link" id="nav-debit-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-debit" type="button" role="tab" aria-controls="nav-debit"
+                                        aria-selected="false">Debit card</button>
+                                    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-contact" type="button" role="tab"
+                                        aria-controls="nav-contact" aria-selected="false">Transaction</button>
+                                </div>
+                            </nav>
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade show active" id="nav-credit" role="tabpanel"
+                                    aria-labelledby="nav-credit-tab">
+                                    <form id="nav-credit-form" class="needs-validation-tab" novalidate>
+                                        <div class="row">
+                                            <div class="col-lg-7 pt-3">
+                                                <label for="cardNumber" class="text-secondary">Credit card
+                                                    number</label>
+                                                <input type="number" min="10000000" max="99999999999999999999"
+                                                    class="form-control" id="cardNumber"
+                                                    placeholder="Please enter your credit card number" maxlength="45"
+                                                    required>
+                                                <div class="invalid-feedback">
+                                                    Please input your valid credit card number.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 pt-3">
+                                                <label for="expirationDate" class="text-secondary">Expiration
+                                                    date</label>
+                                                <input type="month" class="form-control" id="expirationDate"
+                                                    placeholder="MM/YY" style="width: 150px;" required>
+                                                <div class="invalid-feedback">
+                                                    Please input your card's expiration date.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 pt-3">
+                                                <label for="cvv" class="text-secondary">CVV</label>
+                                                <input type="number" min="0" max="999" class="form-control" id="cvv"
+                                                    placeholder="CVV" style="width: 100px;" required>
+                                                <div class="invalid-feedback">
+                                                    Please input the valid CVV code on the back of your card.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 pt-3">
+                                                <label for="nameOnCard" class="text-secondary">Cardholder name</label>
+                                                <input type="text" class="form-control" id="nameOnCard"
+                                                    placeholder="Cardholder name" style="width: 190px;" required>
+                                                <div class="invalid-feedback">
+                                                    Please input the cardholder name.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="tab-pane fade" id="nav-debit" role="tabpanel"
+                                    aria-labelledby="nav-debit-tab">
+                                    <form id="nav-debit-form" class="needs-validation-tab" novalidate>
+                                        <div class="row">
+                                            <div class="col-lg-7 pt-3">
+                                                <label for="cardNumber" class="text-secondary">Debit card number</label>
+                                                <input type="number" min="10000000" max="99999999999999999999"
+                                                    class="form-control" id="cardNumber2"
+                                                    placeholder="Please enter your debit card number" maxlength="45"
+                                                    required>
+                                                <div class="invalid-feedback">
+                                                    Please input your valid debit card number.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 pt-3">
+                                                <label for="expirationDate" class="text-secondary">Expiration
+                                                    date</label>
+                                                <input type="month" class="form-control" id="expirationDate2"
+                                                    placeholder="MM/YY" style="width: 150px;" required>
+                                                <div class="invalid-feedback">
+                                                    Please input your card's expiration date.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 pt-3">
+                                                <label for="cvv" class="text-secondary">CVV</label>
+                                                <input type="number" min="0" max="999" class="form-control" id="cvv2"
+                                                    placeholder="CVV" style="width: 100px;" required>
+                                                <div class="invalid-feedback">
+                                                    Please input the valid CVV code on the back of your card.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 pt-3">
+                                                <label for="nameOnCard" class="text-secondary">Cardholder name</label>
+                                                <input type="text" class="form-control" id="nameOnCard2"
+                                                    placeholder="Cardholder name" style="width: 190px;" required>
+                                                <div class="invalid-feedback">
+                                                    Please input the cardholder name.
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="nav-contact" role="tabpanel"
+                                    aria-labelledby="nav-contact-tab">
+
+                                    <div class="wallet-container__panel">
+                                        <h3 class="text-muted pt-3">Set up a payment in internet banking</h3>
+                                        <div>
+                                            <hr>
+                                            <div class="deposit-field mb-4">
+                                                <p class="deposit-field__label mb-0">Payee name</p>
+                                                <div class="deposit-field__value-row">
+                                                    <h4 class="deposit-field__value false">AK GYM</h4>
+                                                </div>
+                                            </div>
+                                            <div class="deposit-field mb-4">
+                                                <p class="deposit-field__label mb-0">Bank
+                                                    account number</p>
+                                                <div class="deposit-field__value-row">
+                                                    <h4 class="deposit-field__value false">01-0360-001XXXX-00</h4>
+                                                </div>
+                                            </div>
+                                            <div class="deposit-field mb-4">
+                                                <p class="deposit-field__label mb-0">
+                                                    Reference code</p>
+                                                <div class="deposit-field__value-row">
+                                                    <h4 class="deposit-field__value false">AKPAM21</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form action="{{ url_for('member_booking.pay_for_class') }}" method="post">
+                    <input type="hidden" name="booking_id" id="modalBookingId" value="">
+                    <button type="submit" class="btn btn-danger payment-submit" data-special-action="confirmPayment">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="loadingModal1" tabindex="-1" role="dialog" aria-labelledby="loadingModal1Label">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="loadingModal1Label">Processing...</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="loading-icon">
+                            <defs>
+                                <style>
+                                    .cls-1 {
+                                        fill: #1e0f00
+                                    }
+                                </style>
+                            </defs>
+                            <g id="Layer_2" data-name="Layer 2">
+                                <g id="_1" data-name="1">
+                                    <path class="cls-1" d="M0 0h48v2H0zM0 46h48v2H0zM23 28h2v2h-2zM23 24h2v2h-2z" />
+                                    <path class="cls-1"
+                                        d="M44 48H4a1 1 0 0 1-1-1v-3a4 4 0 0 1 4-4h34a4 4 0 0 1 4 4v3a1 1 0 0 1-1 1zM5 46h38v-2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2zM26 25v-2a13 13 0 0 0 13-13V8H9v2a13 13 0 0 0 13 13v2A15 15 0 0 1 7 10V7a1 1 0 0 1 1-1h32a1 1 0 0 1 1 1v3a15 15 0 0 1-15 15z" />
+                                    <path class="cls-1"
+                                        d="M40 42H8a1 1 0 0 1-1-1v-3a15 15 0 0 1 15-15v2A13 13 0 0 0 9 38v2h30v-2a13 13 0 0 0-13-13v-2a15 15 0 0 1 15 15v3a1 1 0 0 1-1 1zM41 8H7a4 4 0 0 1-4-4V1a1 1 0 0 1 1-1h40a1 1 0 0 1 1 1v3a4 4 0 0 1-4 4zM5 2v2a2 2 0 0 0 2 2h34a2 2 0 0 0 2-2V2zM24 19a1.15 1.15 0 0 1-.26 0l-15-4 .52-2L24 17l14.74-4 .52 2-15 4a1.15 1.15 0 0 1-.26 0z" />
+                                    <path class="cls-1"
+                                        d="M36.48 41.85 24 34.17l-12.48 7.68-1-1.7 13-8a1 1 0 0 1 1 0l13 8z" />
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="col-lg-11" style="height: 70px; line-height: 70px;">
+                        <p class="text-danger">&nbsp;Please wait while we are processing your payment...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+{% endblock %}

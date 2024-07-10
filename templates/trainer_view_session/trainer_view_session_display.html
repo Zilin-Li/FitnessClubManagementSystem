@@ -1,0 +1,39 @@
+{% extends 'components/base.html' %}
+{% block title %}Trainer Manage Class{% endblock %}
+{% block content %}
+{% include 'components/error.html' %}
+<div class="container my-4 py-3" style="background-color: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+  <h1 class="text-center mb-4">My Session Booking List</h1>
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Session Name</th>
+          <th scope="col">Schedule time</th>
+          <th scope="col">Location</th>
+          <th scope="col">Price</th>
+          <th scope="col">Member</th>
+          <th scope="col">Actions</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for class in class_list %}
+        <tr>
+          <th scope="row">{{ loop.index }}</th>
+          <td>{{ class[1]| default('', true) }}</td>
+          <td>{{ class[4] | default('', true)}}</td>
+          <td>{{ class[5] | default('', true)}}</td>
+          <td>{{ class[6] | default('', true)}}</td>
+          <td>{{ (class[10] ~ ' ' ~ class[11]) if class[10] is not none else 'Unbooked' }}</td>
+          <td>
+            <a href="{{url_for('trainer_view_session.session_detail', current_class_id = class[0])}}" class="btn btn-primary btn-sm"><i class="bi bi-eye-fill"></i> Details</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

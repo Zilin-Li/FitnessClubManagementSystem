@@ -1,0 +1,199 @@
+{% extends 'components/base.html' %}
+{% block title %} Edit Profile {% endblock %}
+{% block content %}
+{% include 'components/error.html' %}
+<div class="min-vh-100 d-flex justify-content-center"
+  style="background: linear-gradient(135deg, #6ab9ac 0%, #74ABE2 100%);padding-top:3%; margin-top:0">
+
+  <div style="width: 100%; max-width: 80vw;">
+
+    {% if session.role_id == 1 %}
+    <div class="container mt-3" > 
+      {% for member in profile %}
+      <div class="card mb-5"> 
+        <div class="card-body" style="padding:2rem 5rem">
+          <h1 class="text-dark text-center mb-5">Edit Member Profile</h1> 
+          <form method="POST" enctype="multipart/form-data"> 
+            <div class="text-center mb-5"> 
+              {% if member[9] %}
+              <img src="{{ url_for('static', filename='images/member/' + member[9]) }}"
+                  alt="Profile Image" class="img-thumbnail rounded-circle"
+                  style="width: 200px; height: 200px;">
+              {% else %}
+              <img src="{{ url_for('static', filename='images/member/default.png') }}" alt="Profile Image"
+                  class="img-thumbnail rounded-circle" style="width: 200px; height: 200px;">
+              {% endif %}
+    
+              <div class="mt-3 text-start">
+                  <label for="profile_image" class="form-label"><strong>Change Profile Image</strong></label>
+                  <input type="file" class="form-control" id="profile_image" name="profile_image">
+              </div>
+            </div>
+    
+            <div class="row mb-3"> 
+              <div class="col-md-6">
+                <label for="first_name">First Name:</label>
+                <input type="text" class="form-control" id="first_name" name="first_name" value="{{ member[2] }}" maxlength="50" pattern="[A-Za-z]+">
+              </div>
+              <div class="col-md-6">
+                <label for="last_name">Last Name:</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" value="{{ member[3] }}" maxlength="50" pattern="[A-Za-z]+">
+              </div>
+            </div>
+    
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="user_email" value="{{ member[10] }}">
+              </div>
+              <div class="col-md-6">
+                <label for="phone_number">Phone Number:</label>
+                <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ member[5] }}"  pattern="[0-9]+" maxlength="20" >
+              </div>
+            </div>
+    
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <label for="position">Position:</label>
+                <input type="text" class="form-control" id="position" name="position" value="{{ member[4] }}">
+              </div>
+              <div class="col-md-6">
+                <label for="birth_date">Birth Date:</label>
+                <input type="date" class="form-control" id="birth_date" name="birth_date" value="{{ member[7] }}">
+              </div>
+            </div>
+    
+            <div class="form-group mb-4"> 
+              <label for="address">Address:</label>
+              <input type="text" class="form-control" id="address" name="address" value="{{ member[6] }}">
+            </div>
+            
+            <div class="form-group mb-4">
+              <label for="health_info">Health Information:</label>
+              <textarea class="form-control" id="health_info" name="health_info" rows="5">{{ member[8] }}</textarea>
+            </div>
+            <br>
+            <div class="my-4 d-flex justify-content-between align-items-center"> 
+              <a href="{{ url_for('member.member_profile') }}" class="btn btn-primary" style="width: 150px; height: 40px; line-height: 24px;"><strong>Back</strong></a>
+              <button type="submit" class="btn btn-success" style="width: 150px; height: 40px; line-height: 24px;"><strong>Update Profile</strong></button>
+            </div>
+            
+            
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    
+    {% elif session.role_id == 2 %}
+    <div class="container mt-3">
+     
+      {% for trainer in profile %}
+      <div class="card mb-5">
+        <div class="card-body" style="padding:2rem 5rem">
+          <h1 class="text-dark text-center mb-5">Edit Trainer Profile</h1>
+          <form method="POST" action="{{ url_for('trainer.edit_trainer_profile') }}" enctype="multipart/form-data">
+            <div class="text-center mb-5">
+              <img src="{{ url_for('static', filename='images/trainer/' + (trainer[6] if trainer[6] else 'default.png')) }}" 
+                  alt="Profile Image" class="img-thumbnail rounded-circle"
+                  style="width: 200px; height: 250px;">
+              <div class="mt-3 text-start">
+                <label for="profile_image" class="form-label"><strong>Change Profile Image</strong></label>
+                <input type="file" class="form-control" id="profile_image" name="profile_image">
+              </div>
+            </div>
+    
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="first_name">First Name:</label>
+                <input type="text" class="form-control" id="first_name" name="first_name" value="{{ trainer[2] }}" maxlength="50" pattern="[A-Za-z]+">
+              </div>
+              <div class="col-md-6">
+                <label for="last_name">Last Name:</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" value="{{ trainer[3] }}" maxlength="50" pattern="[A-Za-z]+">
+              </div>
+            </div>
+    
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="title">Title:</label>
+                <input type="text" class="form-control" id="title" name="title" value="{{ trainer[4] }}" maxlength="50">
+              </div>
+              <div class="col-md-6">
+                <label for="phone_number">Phone Number:</label>
+                <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ trainer[5] }}" pattern="[0-9]+" maxlength="20">
+              </div>
+            </div>
+
+            <div class="form-group mb-4">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" id="email" name="user_email" value="{{  trainer[8] }}">
+            </div>
+    
+            <div class="form-group mb-4">
+              <label for="description">Description:</label>
+              <textarea class="form-control" id="description" name="description" rows="5">{{ trainer[7] }}</textarea>
+            </div>
+    
+            <div class="my-4 d-flex justify-content-between align-items-center">
+              <a href="{{ url_for('trainer.trainer_profile') }}" class="btn btn-primary" style="width: 150px; height: 40px; line-height: 24px;"><strong>Back</strong></a>
+              <button type="submit" class="btn btn-success" style="width: 150px; height: 40px; line-height: 24px;"><strong>Update Profile</strong></button>
+            </div>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    
+    {% else %}
+    <div class="container mt-3">
+      
+      {% for manager in profile %}
+      <div class="card mb-5">
+        <div class="card-body" style="padding:2rem 5rem">
+          <h1 class="text-dark text-center mb-5">Edit Manager Profile</h1>
+          <form method="POST" action="{{ url_for('manager.edit_manager_profile') }}" enctype="multipart/form-data">
+    
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="first_name">First Name:</label>
+                <input type="text" class="form-control" id="first_name" name="first_name" value="{{ manager[2] }}" maxlength="50" pattern="[A-Za-z]+">
+              </div>
+              <div class="col-md-6">
+                <label for="last_name">Last Name:</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" value="{{ manager[3] }}" maxlength="50" pattern="[A-Za-z]+">
+              </div>
+            </div>
+            <div class="form-group mb-4">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" id="email" name="user_email" value="{{  manager[6] }}">
+            </div>
+    
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="title">Title:</label>
+                <input type="text" class="form-control" id="title" name="title" value="{{ manager[4] }}">
+              </div>
+              <div class="col-md-6">
+                <label for="phone_number">Phone Number:</label>
+                <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ manager[5] }}">
+              </div>
+            </div>
+    
+            <div class="my-4 d-flex justify-content-between align-items-center">
+              <a href="{{ url_for('manager.manager_profile') }}" class="btn btn-primary" style="width: 150px; height: 40px; line-height: 24px;"><strong>Back</strong></a>
+              <button type="submit" class="btn btn-success" style="width: 150px; height: 40px; line-height: 24px;"><strong>Update Profile</strong></button>
+            </div>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    
+    {% endif %}
+  </div>
+
+</div>
+
+
+{% endblock %}

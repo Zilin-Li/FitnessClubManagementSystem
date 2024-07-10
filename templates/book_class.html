@@ -1,0 +1,274 @@
+{% extends 'components/base.html' %}
+{% block title %}
+Group Class Detail
+{% endblock %}
+
+{% block content %}
+    <div class="container mb-4 mt-4" style="background-color: gainsboro;">
+
+        <div class="py-3 text-center">
+            <h2>{{ fitness_class[1] if fitness_class is not none else ''  }} 
+                <span class="text-warning">({{ 'Class' if fitness_class is not none and fitness_class[12] == 1 else 'Individual Training'  }})</span>
+            </h2>
+        </div>
+        <div class="row" style="background-color: rgba(169, 169, 169, 0.2);">
+            <div class="col-1"></div>
+            <div class="col-4">
+                <div class="px-3 pt-3">
+                    <div class="row">
+                        <input type="text" id="classId" name="classId" value="{{ fitness_class[0] }}" hidden />
+                        <div class="col-12">
+                            <label class="form-label">Time</label>
+                            <div class="font-weight-bold text-secondary h4">{{ fitness_class[8] if fitness_class is not none else ''  }}</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label mt-3">Location</label>
+                            <div class="font-weight-bold text-secondary h4">{{ fitness_class[9] if fitness_class is not none else '' }}</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label mt-3">Price</label>
+                            <div class="font-weight-bold text-secondary h4">{{ "$" ~ fitness_class[10] if fitness_class is not none and fitness_class[10] > 0 else 'Free' }}</div>
+                        </div>
+                        <div class="col-12 mb-1">
+                            <label class="form-label  mt-3">Class Description</label>
+                            <div class="font-weight-bold text-secondary h5">{{ fitness_class[7] if fitness_class is not none else ''  }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="row">
+                    <div class="col-12 mt-4 ml-3">
+                        <img src="{{ url_for('static', filename='images/trainer/' + fitness_class[6]) }}"
+                        class="img-fluid rounded-circle" alt="Trainer Profile Image" style="height: 300px; object-fit: contain;">
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="px-3 pt-3">
+                    <div class="row">
+                        <div class="col-12 mt-1">
+                            <label class="form-label">Trainer Name</label>
+                            <div class="font-weight-bold text-secondary h4">{{ fitness_class[3] if fitness_class is not none else ''  }}</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label mt-3">Trainer Title</label>
+                            <div class="font-weight-bold text-secondary h4">{{ fitness_class[4] if fitness_class is not none else ''  }}</div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label mt-3">Phone Number</label>
+                            <div class="font-weight-bold text-secondary h4">{{ fitness_class[5] if fitness_class is not none else ''  }}</div>
+                        </div>
+                        <div class="col-12 mb-1">
+                            <label class="form-label mt-3">Trainer Description</label>
+                            <div class="font-weight-bold text-secondary h5">{{ fitness_class[7] if fitness_class is not none else ''  }}</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row" style="height: 20px;"></div>
+        <hr class="my-4">
+       
+        <div class="row g-5 pb-3 {{ 'hidden-content' if not session.get('logged_in', False) or session.get('role_id', None) != 1 }}
+        ">
+            <div class="col-6 text-center">
+                {% if current_user_booked %}
+                <input type="text" id="bookHistoryId" name="bookHistoryId" value="{{ book_history_id }}" hidden />
+                <button type="button" class="w-50 btn btn-danger" id="cancelBook" >Cancel this Booking</button>
+                {% elif class_unavailable %}
+                <button type="button" class="w-50 btn " id="book" disabled>This class is Unavailable</button>
+                {% elif  fitness_class is not none and fitness_class[12] == 1  %}
+                <button type="button" class="w-50 btn btn-primary" id="book" >Book This Class</button>
+                {% else %}
+                <button type="button" class="w-50 btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMakeApayment">Book This Session</button>
+                {% endif %}
+            </div>
+            <div class="col-6 text-center">
+                {% if fitness_class is not none and fitness_class[12] == 1 %}
+                <input type="button" class="w-50 btn btn-secondary form-control" value="Back" onclick="window.location.href='/member_course/classes_timetable'"/>
+                {% elif fitness_class is not none and fitness_class[12] == 2 %}
+                <input type="button" class="w-50 btn btn-secondary form-control" value="Back" onclick="window.location.href='/member_trainer/detail/{{fitness_class[13] if fitness_class is not none else 0}}'"/>
+                {% else %}
+                <input type="button" class="w-50 btn btn-secondary form-control" value="Back" onclick="history.back()"/>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Confirm Modal -->
+        <div class="modal fade" id="modalBookClass" tabindex="-1" aria-labelledby="bookClassModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="bookClassModalLabel">Book Class</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <span style="text-align: center; font-weight: bold; font-size: 15px;" class="m-2">
+                                Are you sure to book this class?
+                            </span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="button" id="bookClass">Confirm</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div class="modal fade" id="modalSignupSucceed" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="successModalLabel">Success Message</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row text-center">
+                            <span style="font-size: 30px" class="text-success">Success</span>
+                        </div>
+                        <div class="row">
+                            <span style="text-align: center; font-weight: bold; font-size: 18px;" class="text-secondary m-2" id="succeedContent"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fail Modal -->
+        <div class="modal fade" id="modalSignupFailed" tabindex="-1" aria-labelledby="failedModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="failedModalLabel">Operation failed</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <span  style="text-align: center; font-weight: bold; font-size: 15px;" class="text-danger m-2" id="failedContent"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {% include 'components/payment.html' %}
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+    <script>
+        // Function to book class/session
+        function bookClass(userId, classId, class_type) {
+            $.ajax({
+                url: "/member/class/book",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    user_id: userId,
+                    class_id: classId,
+                    class_type: class_type
+                },
+                success: function(data) {
+                    if (data.code === 200) {
+                        $('#succeedContent').text(data.msg);
+                        $('#modalSignupSucceed').modal('show');
+                    } else {
+                        $('#failedContent').text(data.msg);
+                        $('#modalSignupFailed').modal('show');
+                    }
+                },
+                fail: function(data) {
+                    $('#modalSignupFailed').modal('show');
+                }
+            });
+        }
+
+        $("#cancelBook").on('click', function() {
+            var userConfirmation = confirm("Are you sure you want to cancel this booking?");
+            if (!userConfirmation) {
+                return;
+            }
+            var bookHistoryId = $("#bookHistoryId").val();
+            $.ajax({
+                url: "/member/class/cancel",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    book_id: bookHistoryId,
+                },
+                success: function(data) {
+                    if (data.code === 200) {
+                        $('#succeedContent').text(data.msg);
+                        $('#modalSignupSucceed').modal('show');
+                    } else {
+                        $('#failedContent').text(data.msg);
+                        $('#modalSignupFailed').modal('show');
+                    }
+                },
+                fail: function(data) {
+                    $('#modalSignupFailed').modal('show');
+                }
+            });
+        });
+
+        $("#book").on('click', function() {
+            $('#modalBookClass').modal('show');
+        });
+
+        $("#bookClass").on('click', function() {
+            $('#modalBookClass').modal('hide');
+            var userId = '{{session.user_id}}'; 
+            var classId = $("#classId").val();
+            bookClass(userId, classId, 'class');
+        });
+
+        $("#paymentSubmit").on('click', function () {
+            let activeTab = $('.nav-tabs .active').attr("id")
+            const forms = Array.from(document.querySelectorAll('.needs-validation-tab'));
+            let activeForm;
+            if (activeTab === "nav-credit-tab") {
+                activeForm = forms[0];
+            } else if (activeTab === "nav-debit-tab") {
+                activeForm = forms[1];
+            }
+
+            if (activeForm !== undefined) {
+                if (!activeForm.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                    activeForm.classList.add('was-validated');
+                    return
+                }
+                activeForm.classList.add('was-validated');
+            }
+
+            var userId = '{{session.user_id}}'; 
+            var classId = $("#classId").val();
+            $('#modalMakeApayment').modal('hide')
+            $('#loadingModal').modal('show');
+            setTimeout(function() {
+                $('#loadingModal').modal('hide');
+                bookClass(userId, classId, 'session');
+            }, 2000);
+        })
+
+        $('#modalSignupSucceed').on('hidden.bs.modal', function (e) {
+           location.reload()
+        })
+
+    </script>
+{% endblock %}

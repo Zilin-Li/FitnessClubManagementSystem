@@ -1,0 +1,66 @@
+{% extends 'components/base.html' %}
+{% block title %} List News {% endblock %}
+{% block content %}
+  <!-- error message -->
+{% include 'components/error.html' %}
+<div class="container mt-5 mb-5">
+  <h1 class="mb-4 text-center" style="color: #0d2034;">Fitness News</h1>
+
+    <div class="d-flex justify-content-between align-items-end pb-5"> <!-- 使用 flex 布局实现一左一右布局 -->
+      <!-- Form Section -->
+      <form method="get" action="{{ url_for('manager_news.show_manager_news') }}" class="flex-grow-1">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="title">Title:</label>
+              <input type="text" name="title" class="form-control" id="title" placeholder="Enter title">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="publish_time">Publish Time:</label>
+              <input type="date" name="publish_time" class="form-control" id="publish_time">
+            </div>
+          </div>
+          <div class="col-md-4 d-flex align-items-end"> 
+            <button type="submit" class="btn btn-primary">Filter</button>
+          </div>
+        </div>
+      </form>
+  
+      <!-- Add News Button (only if user is admin) -->
+      {% if session.role_id == 3 %}
+      <div class="ml-4"> 
+        <a class="btn btn-success btn-lg" href="{{ url_for('manager_news.manager_add_news')}}" style="box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+          <i class="fas fa-plus-circle"></i> Add News
+        </a>
+      </div>
+      {% endif %}
+    </div>
+ 
+  
+  
+  
+
+  <!-- List of News -->
+  <div class="card-columns">
+    {% for news_item in news %}
+    <div class="card mb-4">
+      <div class="card-body">
+        <h2 class="card-title"><a href="{{ url_for('manager_news.show_indevidual_news', news_id=news_item[0]) }}"
+            class="text-decoration-none">{{ news_item[1] }}</a></h2>
+        <p class="card-text"><small class="text-muted">Published at: {{ news_item[3] }}</small></p>
+        {% if session.role_id == 3 %}
+        <div class="btn-group" role="group" aria-label="News Actions">
+          <a class="btn btn-info btn-sm" href="{{ url_for('manager_news.edit_news', news_id=news_item[0]) }}">Edit</a>
+          <a class="btn btn-danger btn-sm" href="{{ url_for('manager_news.delete_news', news_id=news_item[0]) }}">Delete</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  
+</div>
+{% endblock %}

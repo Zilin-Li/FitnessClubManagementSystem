@@ -1,0 +1,22 @@
+{% extends 'components/base.html' %}
+{% block title %} Individual News {% endblock %}
+{% block content %}
+<div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col">
+      <article>
+        <header>
+          <h1>{{ news[1] }}</h1>
+          <p><strong>Published at</strong>: {{ news[3] }}</p>
+        </header>
+        <section>
+          <p>{{ news[2] }}</p>
+        </section>
+        <footer>
+          <p><strong>Last modified at</strong>: {{ news[4] }} by <strong>Manager {{ news[5] }}</strong></p>
+        </footer>
+      </article>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'components/base.html' %}
+{% block title %}Member Management{% endblock %}
+{% block content %}
+{% include 'components/error.html' %}
+<div class="container my-4 py-3" style="background-color: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+  <h1 class="text-center mb-4">Member List</h1>
+  <div class="mb-4 text-end">
+    <a href="{{ url_for('manager_member.add_member') }}" class="btn btn-success">Create Member</a>
+  </div>
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Photo</th>
+          <th scope="col">Username</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Date of Birth</th>
+          <th scope="col">Status</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for member in member_list %}
+        <tr>
+          <th scope="row">{{ loop.index }}</th>
+          <td>
+            {% if member[9] %}
+                <img src="{{ url_for('static', filename='images/member/' + member[9]) }}" alt="Member Photo" class="img-fluid" style="width: 60px; height: 60px; border-radius: 30px;">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/member/default.png') }}" alt="Member Photo" class="img-fluid" style="width: 60px; height: 60px; border-radius: 30px;">
+            {% endif %}
+        </td>
+          <td>{{ member[1]| default('', true) }}</td>
+          <td>{{ member[3] | default('', true)}} {{ member[4] | default('', true)}}</td>
+          <td>{{ member[2] | default('', true)}}</td>
+          <td>{{ member[6] | default('', true)}}</td>
+          <td>{{ member[8] | default('', true)}}</td>
+          <td><span class="badge {{'bg-success' if member[10] == 1 else 'bg-secondary'}}">{{ 'Active' if member[10] == 1 else 'Inactive' }}</span></td>
+          <td>
+            <a href="{{url_for('manager_member.member_detail', current_user_id = member[0])}}" class="btn btn-primary btn-sm"><i class="bi bi-eye-fill"></i> Details</a>
+            <a href="{{url_for('manager_member.update_member', current_user_id = member[0])}}" class="btn btn-warning btn-sm text-white"><i class="bi bi-pencil-fill"></i> Edit</a>
+            <!-- <a href="{{url_for('manager_member.delete_member', current_user_id = member[0])}}" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i> Delete</a> -->
+            <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal{{ member[0] }}">
+              <i class="bi bi-trash-fill"></i> Delete
+            </a>
+            <div class="modal fade" id="deleteConfirmModal{{ member[0] }}" tabindex="-1" aria-labelledby="deleteConfirmModalLabel{{ member[0] }}" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="deleteConfirmModalLabel{{ member[0] }}">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to delete this member?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="{{url_for('manager_member.delete_member', current_user_id=member[0])}}" class="btn btn-danger">Confirm Delete</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

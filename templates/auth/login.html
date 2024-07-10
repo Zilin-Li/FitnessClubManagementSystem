@@ -1,0 +1,30 @@
+{% extends 'components/base.html' %}
+{% block title %}Login {% endblock %}
+{% block content %}
+{% include 'components/error.html' %}
+<div class="min-vh-100 d-flex justify-content-center" style="background: linear-gradient(135deg, #6ab9ac 0%, #74ABE2 100%);padding-top:10%; margin-top:0">
+
+    <div style="width: 100%; max-width: 30vw;">
+       
+                <div class="card border-0" style="background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border-radius: 15px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);">
+                    <div class="card-body py-5 px-4">
+                        <h5 class="card-title text-uppercase mb-4 text-center" style="color: #0056b3; font-weight: 700; font-size: 1.5rem;">Sign In</h5>
+                        <form class="p-2" action="{{ url_for('auth.login') }}" method="post">
+                            <div class="mb-4">
+                                <label for="username" class="form-label fw-bold" style="color: #333; font-size: 1rem;">Username:  </label>
+                                <input class="form-control" type="text" name="username" id="username" required style="border-radius: 10px;">
+                            </div>
+                            <div class="mb-4">
+                                <label for="password" class="form-label fw-bold" style="color: #333; font-size: 1rem;">Password:  </label>
+                                <input class="form-control" type="password" name="password" id="password" required style="border-radius: 10px;">
+                            </div>
+                           
+                            <button type="submit" class="btn btn-primary w-100 mt-4" style="background-color: #0D6EFD; border: none; border-radius: 10px;">Sign In</button>
+                        </form>
+                    </div>
+                </div>
+           
+        
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'components/base.html' %}
+{% block title %}Trainer List{% endblock %}
+{% block content %}
+
+<div style="background-color: #f8f9fa; padding: 20px 0; min-height: 100vh;">
+    <div class="container py-5" style="max-width: 80vw; min-height: 80vh; margin-top: 2rem;padding: 2rem; background-color: white; border-radius: 8px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);">
+      <h2 class="text-center mb-4">Our Trainers</h2>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+          {% for trainer in trainer_list %}
+          <div class="col">
+              <div class="card h-100 pt-2">
+                  <!-- Trainer Profile Image -->
+                  <img src="{{url_for('static', filename='images/trainer/' + trainer[8])}}" class="card-img-top img-fluid" alt="Profile Image" style="height: 400px; object-fit: contain;">
+  
+                  <div class="card-body">
+                      <!-- Trainer Full Name and Title -->
+                      <h5 class="card-title">{{ trainer[4] }} {{ trainer[5] }}</h5>
+                      <p class="card-text">{{ trainer[6] }}</p>
+                  </div>
+                  <div class="card-footer">
+                      <!-- Detail Button -->
+                      <a href="{{url_for('home.trainer_detail', trainer_user_id=trainer[0])}}" class="btn btn-primary">Details</a>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+</div>
+
+{% endblock %}

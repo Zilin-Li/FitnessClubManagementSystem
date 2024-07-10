@@ -1,0 +1,69 @@
+{% extends 'components/base.html' %}
+{% block title %}Class Timetable{% endblock %}
+{% block content %}
+
+<style>
+    .custom-col {
+        flex: 0 0 14.2857%; 
+        max-width: 14.2857%; 
+    }
+</style>
+
+<div class="container-fluid mt-4">
+    <div class="row justify-content-center">
+        <h2 class="text-center" style="font-family: 'Poppins', sans-serif; color:rgb(73, 119, 213)">Fitness Group Class</h2>
+
+        {% for date, courses in courses_by_date.items() %}
+       
+        <div class="col custom-col mb-3">
+            <!-- Date heading -->
+            <h5 class="text-center my-4 py-2 fw-bold rounded">{{ date.strftime('%A, %b %d') }}</h5>
+            {% set colors = ["bg-primary", "bg-success", "bg-info", "bg-warning", "bg-danger"] %}
+            <!-- Courses list -->
+            {% for course in courses %}
+            <div class="card mb-3" style="width: 100%;">
+
+                <div class="card-header text-white {{ colors | random }}">
+                    <h6 class="card-title">{{ course.class_time.seconds // 3600 }}:{{ '%02d' |
+                        format((course.class_time.seconds // 60) % 60) }}</h6>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        {% if course.booking_count == 0 %}
+                        <i class="bi bi-journal-bookmark-fill me-2"></i>{{ course.class_name }}<br>
+                        {% else %}
+
+                        <a href="{{ url_for('member.class_detail', class_id=course.class_id) }}" class="fw-bold"
+                            style="color:rgba(0, 110, 255, 0.8)">
+                            <i class="bi bi-journal-bookmark-fill me-2"></i>{{ course.class_name }}
+                        </a><br>
+                        {% endif %}
+
+                        <i class="bi bi-person-fill me-2" style="color:rgb(127, 206, 255)"></i> {{
+                        course.trainer_first_name }} {{ course.trainer_last_name }}<br>
+                        <i class="bi bi-map-fill me-2" style="color:rgb(127, 206, 255)"></i> {{ course.location_name
+                        }}<br>
+                        {%if course.booking_count == 0 %}
+                        <span class="badge bg-danger mt-3"> Available Space: <span
+                                style="color:black">{{course.booking_count}} /</span> <span
+                                style="color:rgb(245, 239, 239)">{{ course.capacity }} </span></span>
+                        {%else%}
+                        <span class="badge bg-success mt-3"> Available Space: <span
+                                style="color:black">{{course.booking_count}} /</span> <span
+                                style="color:rgb(245, 239, 239)">{{ course.capacity }} </span></span>
+                        {%endif%}
+                    </p>
+                </div>
+            </div>
+            {% else %}
+            <div class="text-muted text-center p-3">
+                <p>No classes scheduled</p>
+            </div>
+            {% endfor %}
+
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

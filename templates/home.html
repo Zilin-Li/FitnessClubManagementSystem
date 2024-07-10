@@ -1,0 +1,98 @@
+{% extends 'components/base.html' %}
+
+{% block title %}Outdoor Fitness Classes{% endblock %}
+
+{% block content %}
+<!-- error message -->
+{% include 'components/error.html' %}
+<!-- Banner -->
+<div style="background-color:#e0e8f0;">
+  <!-- <div  style="background-color: #133880;">  -->
+  <div class="card bg-dark text-white">
+    <img src="{{ url_for('static', filename='images/banner.jpeg') }}" alt="Banner Image" class="card-img rounded-0">
+    <div class="card-img-overlay d-flex flex-column justify-content-center align-items-center">
+      <div class="row">
+        <div class="col-lg-6 p-5">
+          <h1 class="card-text text-left mb-3" style="font-weight: 900; font-size: 3.5vw; color: #0d2c6c;">
+            Welcome to MountainAir Fitness Club 
+          </h1>
+          <p class="card-text text-left mb-3 fs-5 text-black d-none d-md-block">At FitnessClub, we are here to help you achieve your
+            health,
+            wellness and
+            fitness goals. Members of FitnessClub gyms are achieving their goals in our facilities all over New Zealand.
+          </p>
+          {% if not session.logged_in%}
+          <a href="{{ url_for('auth.register')}}" class="btn btn-danger mb-3"
+            style="font-size: 2rem; padding: 10px 20px;">Join Today</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="mt-5 m-lg-5 p-lg-5 p-md-3 lh-lg" style="background-color: #48C9B0; color: #30353c;">
+
+    <div class="row align-items-center">
+      <div class="col-lg-6 justify-content-center">
+        <h2 class="section-heading px-5 pt-5">About Our Classes</h2>
+        <p class="px-5" style="font-size:1.3rem">
+          Join us for invigorating outdoor fitness classes that combine the serenity of nature with dynamic workouts to
+          help you achieve your fitness goals. <br>
+          Our classes are designed to cater to all fitness levels,from beginners to advanced practitioners, ensuring
+          that everyone feels welcome and challenged.
+          <br>
+          <a href="{{ url_for('manager_news.show_manager_news')}}" class="btn btn-primary my-5">Learn More</a>
+        </p>
+
+      </div>
+      <div class="col-lg-6">
+        <img src="{{ url_for('static', filename='images/class_desc.jpg') }}" class="img-fluid w-100"
+          alt="Class Description Image">
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Class Timetable -->
+  <section class="mt-5 m-lg-5 p-lg-5 p-md-3 lh-lg" style="background-color: #5DADE2; color: #30353c;">
+
+    <div class="row align-items-center">
+      <div class="col-lg-6 order-lg-1 d-none d-md-block">
+        <img src="{{ url_for('static', filename='images/timetable.webp') }}" class="img-fluid w-100"
+          alt="Class Timetable Image">
+      </div>
+      <div class="col-lg-6 order-lg-2">
+        <h2 class="section-heading px-5  pt-5">Class Timetable</h2>
+        <p class="px-5" style="font-size:1.3rem">
+          Check out our class timetable and find the perfect outdoor fitness class that fits your schedule.
+          With various classes offered throughout the week, you'll surely find one that suits your needs.
+          <br>
+          <a href="{{ url_for('member_course.view_class')}}" class="btn btn-primary my-5">View Timetable</a>
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Meet Our Trainers -->
+  <section class="mt-5 mx-lg-5 p-lg-5 p-md-3  lh-lg" style="background-color: #F39C12; color: #30353c;">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <h2 class="section-heading px-5 pt-5">Meet Our Trainers</h2>
+        <p class="px-5" style="font-size:1.3rem">
+          At MountainAir Fitness Club, we're proud to have a team of dedicated and experienced trainers
+          who are passionate about helping you achieve your fitness goals in the great outdoors. Each of
+          our trainers brings a unique blend of expertise, enthusiasm, and motivation to every session,
+          ensuring you get the most out of your workouts while enjoying the natural beauty around you.
+          <br>
+          <a href="{{ url_for('home.view_trainer') }}" class="btn btn-primary my-5">Meet Our Trainers</a>
+        </p>
+
+      </div>
+      <div class="col-lg-6">
+        <img src="{{ url_for('static', filename='images/trainer.png') }}" class="img-fluid w-100" alt="Trainer Image">
+      </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}

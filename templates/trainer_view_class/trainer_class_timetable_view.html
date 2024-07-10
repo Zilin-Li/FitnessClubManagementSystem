@@ -1,0 +1,63 @@
+{% extends 'components/base.html' %}
+{% block title %}
+Exercise Class Timetable
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+   <!-- Filter Form -->
+    <form method="POST" action="{{ url_for('trainer.view_exercise_class_timetable') }}">
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="location_name" class="form-label" style="font-weight: bold; font-size: 16px; color: #040404;">Location:</label>
+                <select name="location_name" id="location_name" class="form-select">
+                    <option value="">All Locations</option>
+                    {% for location in locations %}
+                        <option value="{{ location }}" {% if filter_options['location_name'] == location %} selected {% endif %}>{{ location }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="schedule_time" class="form-label" style="font-weight: bold; font-size: 16px; color: #040404;">Schedule Time:</label>
+                <select name="schedule_time" id="schedule_time" class="form-select">
+                    <option value="">All Schedule Times</option>
+                    {% for time in schedule_times %}
+                        <option value="{{ time }}" {% if filter_options['schedule_time'] == time %} selected {% endif %}>{{ time }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+
+
+    <!-- Display Filtered Classes -->
+    <div class="table-responsive">
+        <h3 style="color: #040404;">My Class Timetable</h3>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Class Name</th>
+                    <th>Location</th>
+                    <th>Schedule Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if filtered_classes %}
+                    {% for cls in filtered_classes %}
+                        <tr>
+                            <td>{{ cls.name }}</td>
+                            <td>{{ cls.location_name }}</td>
+                            <td>{{ cls.schedule_time }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3">No classes found.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

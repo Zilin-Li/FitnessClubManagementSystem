@@ -1,0 +1,210 @@
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark px-5" style="background-color: #133880;">
+    <a class="navbar-brand" href="{{ url_for('home') }}">
+      <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo" style="height: 50px;width:80px;">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active text-white text-uppercase" aria-current="page" href="{{ url_for('home') }}">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white text-uppercase" href="#" id="fitnessProgramsDropdown"
+            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Fitness Programs
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="fitnessProgramsDropdown">
+            <li><a class="dropdown-item text-uppercase" href="{{ url_for('member_course.view_session') }}">Personal
+                Training Sessions</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item text-uppercase" href="{{ url_for('member_course.view_class') }}">Exercise
+                Classes</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item mx-2">
+          <a class="nav-link text-white text-uppercase" href="{{ url_for('member_trainer.view_trainer') }}">Our
+            Trainers</a>
+        </li>
+
+        <li class="nav-item mx-2">
+          <a class="nav-link text-white text-uppercase" href="{{ url_for('auth.subscribe')}}">Memberships</a>
+        </li>
+
+        <li class="nav-item mx-2">
+          <a class="nav-link text-white text-uppercase" href="{{ url_for('manager_news.show_manager_news')}}">News</a>
+        </li>
+        {% if session.logged_in == True and session.role_id == 1 %}
+        <li class="nav-item mx-2">
+          <a class="nav-link text-white text-uppercase" href="{{ url_for('member_booking.view_booking')}}">My
+            Booking</a>
+        </li>
+        {% endif %}
+
+        <!-- Profile Account for member, trainer and manager -->
+        {% if session.logged_in == True and session.role_id in [1, 2, 3] %}
+        <li class="nav-item dropdown mx-2">
+          <a class="nav-link dropdown-toggle text-uppercase text-white" href="#" id="accountDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            My Account
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+            {% if session.role_id == 1 %}
+            <li><a class="dropdown-item text-uppercase" href="{{ url_for('member.member_profile') }}">My Profile</a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item text-uppercase" href="{{ url_for('member_subscribe.view_subscribe') }}">My
+                subscription</a></li>
+            {% elif session.role_id == 2 %}
+            <li><a class="dropdown-item text-uppercase" href="{{ url_for('trainer.trainer_profile') }}">My Profile</a>
+            </li>
+            {% elif session.role_id == 3 %}
+            <li><a class="dropdown-item text-uppercase" href="{{ url_for('manager.manager_profile') }}">My Profile</a>
+            </li>
+            {% endif %}
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item text-uppercase" href="{{ url_for('auth.change_password')}}">Change Password</a>
+            </li>
+          </ul>
+        </li>
+        {% endif %}
+
+
+        <!-- DashBoard for trainer and manager -->
+        {% if session.role_id == 2 %}
+        <li class="nav-item dropdown mx-2">
+          <a class="nav-link dropdown-toggle text-white text-uppercase" href="#" id="trainerDashboardDropdown"
+            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Trainer DashBoard
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="trainerDashboardDropdown">
+            <li><a class="dropdown-item text-uppercase"
+                href="{{ url_for('trainer_manage_session.display_session') }}">Manage Sessions</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item text-uppercase"
+                href="{{ url_for('trainer.view_exercise_class_timetable') }}">View Classes</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item text-uppercase"
+                href="{{ url_for('trainer_view_session.display_session') }}">Session Bookings</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item text-uppercase"
+                href="{{ url_for('trainer_record_attendance.display_course') }}">Record Attendance</a></li>
+
+          </ul>
+        </li>
+
+        {% elif session.role_id == 3 %}
+        <li class="nav-item dropdown mx-2">
+          <a class="nav-link dropdown-toggle text-white text-uppercase" href="#" id="managerDashboardDropdown"
+            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Manager DashBoard
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="managerDashboardDropdown">
+            <li><a class="dropdown-item text-uppercase" href="{{ url_for('manager_member.display_member')}}">Manage
+                Members</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item text-uppercase" href="{{ url_for('manage_trainer.display_trainer')}}">Manage
+                Trainers</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <!-- <li><a class="dropdown-item text-uppercase" href="#">Track Payments</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li> -->
+            <!-- Manage weekly Classes' timetable -->
+
+            <li><a class="dropdown-item text-uppercase"
+                href="{{ url_for('manager_manage_class.display_class') }}">Manage Classes</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <!-- Check Sessions' timetable -->
+            <li><a class="dropdown-item text-uppercase"
+                href="{{ url_for('manager_manage_session.display_session') }}">Manage Sessions</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item text-uppercase"
+                href="{{ url_for('attendance_report.attendance_report_summary') }}">Attendance
+                Report</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item text-uppercase" href="{{ url_for('manage_report.finance_report')}}"> Financial
+                Reports </a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <!-- List of members with expired subscriptions and near-to-expire subscriptions -->
+            <li><a class="dropdown-item text-uppercase"
+                href="{{ url_for('manage_view_subscription_status.get_subscription_status')}}">Membership Renewals</a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item text-uppercase" href="{{ url_for('manager.manage_location')}}">Manage
+                Location</a>
+            </li>
+            <!-- <li>
+              <hr class="dropdown-divider">
+            </li>
+            Manage subscription fees, course fees, and personal training fees 
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item text-uppercase" href="#">Manage Prices</a></li>-->
+            
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+          
+            <li><a class="dropdown-item text-uppercase" href="{{url_for('manager_record_attendance.display_course')}}">Record Attendance</a></li>
+
+          </ul>
+        </li>
+        {% endif %}.
+
+
+      </ul>
+      <div class="d-flex align-items-center">
+        {% if not session.logged_in %}
+        <a class="btn btn-primary text-uppercase mx-2" href="{{ url_for('auth.login')}}">Sign In</a>
+        <a class="btn btn-primary text-uppercase mx-2" href="{{ url_for('auth.register')}}">Sign Up</a>
+        {% else %}
+        <p class="text-white me-3 mt-3 text-uppercase"><strong>Welcome,
+            <!-- {% if session.role_id == 1 %} Member {% elif
+          session.role_id ==
+          2 %}
+          Trainer
+          {% elif session.role_id == 3 %} Manager {% endif %}  -->
+            {{ session.username }} !</strong></p>
+        <a class="btn btn-danger text-uppercase mx-2" href="{{ url_for('auth.logout')}}">Logout</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+</header>
+
+
+<script src="https://unpkg.com/@popperjs/core@2"></script>

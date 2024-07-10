@@ -1,0 +1,90 @@
+{% extends 'components/base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+
+{% include 'components/error.html' %}
+
+<div class="min-vh-100 d-flex justify-content-center"
+  style="background: linear-gradient(135deg, #6ab9ac 0%, #74ABE2 100%);padding-top:3%; margin-top:0">
+
+  <div style="width: 100%; max-width: 60vw;">
+    <div class="container my-4 py-3"
+      style="background-color: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+
+      {% if session.role_id == 1 %}
+      <h1 class="text-center mb-4">Member Profile</h1>
+      {% for member in profile %}
+
+      <div class="card mb-5">
+        <div class="card-body">
+          <div class="text-center mb-4">
+            <img src="{{ url_for('static', filename='images/member/' + (member[9] if member[9] else 'default.png')) }}"
+              alt="Profile Image" class="rounded-circle" style="width: 150px; height: 150px;">
+          </div>
+          <h5 class="card-title text-center mb-3">{{ member[2] }} {{ member[3] }}</h5>
+          <p class="card-text"><strong>Position:</strong> {{ member[4] }}</p>
+          <p class="card-text"><strong>Email:</strong> {{ member[10] }}</p>
+          <p class="card-text"><strong>Phone Number:</strong> {{ member[5] }}</p>
+          <p class="card-text"><strong>Address:</strong> {{ member[6] }}</p>
+          <p class="card-text"><strong>Birth Date:</strong> {{ member[7] }}</p>
+          <p class="card-text"><strong>Health Information:</strong> {{ member[8] }}</p>
+          <div class="d-flex justify-content-between mt-4">
+            <a href="{{ url_for('home') }}" class="btn btn-secondary" style="min-width: 120px;">Back</a>
+            <a href="{{ url_for('member.edit_member_profile') }}" class="btn btn-info">Edit</a>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+      {% elif session.role_id == 2 %}
+      <h1 class="text-center mb-4">Trainer Profile</h1>
+      {% for trainer in profile %}
+      <div class="card mb-5">
+        <div class="card-body">
+          <div class="text-center mb-4">
+            <img src="{{ url_for('static', filename='images/trainer/' + trainer[6]) }}" alt="Profile Image"
+              class="rounded-circle" style="width: 200px; height: 250px;">
+          </div>
+          <h5 class="card-title text-center mb-3">{{ trainer[2] }} {{ trainer[3] }}</h5>
+          <p class="card-text"><strong>Title:</strong> {{ trainer[4] }}</p>
+          <p class="card-text"><strong>Email:</strong> {{ trainer[8] }}</p>
+          <p class="card-text"><strong>Phone Number:</strong> {{ trainer[5] }}</p>
+          <p class="card-text"><strong>Description:</strong> {{ trainer[7] }}</p>
+          <div class="d-flex justify-content-between mt-4">
+            <a href="{{ url_for('home') }}" class="btn btn-secondary" style="min-width: 120px;">Back</a>
+            <a href="{{ url_for('trainer.edit_trainer_profile') }}" class="btn btn-info">Edit</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% elif session.role_id == 3 %}
+      <h1 class="text-center mb-5">Manager Profile</h1>
+      {% for manager in profile %}
+      <div class="card mb-5" style="line-height: 1.75;">
+        <div class="card-body">
+          <div class="text-center mb-4">
+            <h5 class="card-title">{{ manager[2] }} {{ manager[3] }}</h5>
+          </div>
+          <p class="card-text"><strong>Title:</strong> {{ manager[4] }}</p>
+          <p class="card-text"><strong>Email:</strong> {{ manager[6] }}</p>
+
+          <p class="card-text"><strong>Phone Number:</strong> {{ manager[5] }}</p>
+
+          <div class="d-flex justify-content-between mt-4">
+            <a href="{{ url_for('home') }}" class="btn btn-secondary" style="min-width: 120px;">Back</a>
+            <a href="{{ url_for('manager.edit_manager_profile') }}" class="btn btn-info"
+              style="min-width: 120px;">Edit</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

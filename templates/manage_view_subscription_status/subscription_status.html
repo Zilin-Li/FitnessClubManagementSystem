@@ -1,0 +1,60 @@
+{% extends 'components/base.html' %}
+{% block title %} Subscription Status {% endblock %}
+{% block content %}
+
+<div class="container mt-5 mb-5">
+  <h1>Subscription Status</h1>
+  <label for="status-filter">Filter by Status:</label>
+  <select id="status-filter">
+    <option value="all">All</option>
+    <option value="Active">Active</option>
+    <option value="Expired">Expired</option>
+    <option value="Expiring">Expiring</option>
+  </select>
+  <div class="table-responsive">
+    <table id="subscription-table" class="table table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Subscription Type</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in results %}
+        <tr
+          class="{% if result[6] == 'Active' %}table-success{% elif result[6] == 'Expired' %}table-danger{% elif result[6] == 'Expiring' %}table-info{% endif %}">
+          <td>{{ result[0] }}</td>
+          <td>{{ result[1] }}</td>
+          <td>{{ result[2] }}</td>
+          <td>{{ result[3] }}</td>
+          <td>{{ result[4] }}</td>
+          <td>{{ result[5] }}</td>
+          <td>{{ result[6] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  document.getElementById('status-filter').addEventListener('change', function () {
+    var selectedStatus = this.value.toLowerCase();
+    var rows = document.querySelectorAll('#subscription-table tbody tr');
+    rows.forEach(function (row) {
+      var status = row.cells[6].innerText.toLowerCase();
+      if (selectedStatus === 'all' || status === selectedStatus) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  });
+</script>
+
+{% endblock %}

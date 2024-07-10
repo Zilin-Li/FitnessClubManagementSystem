@@ -1,0 +1,76 @@
+{% extends 'components/base.html' %}
+{% block title %}Edit session Details{% endblock %}
+{% block content %}
+{% include 'components/error.html' %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white">
+                    <h4>Edit Session Details</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST"
+                        action="{{ url_for('trainer_manage_session.update_session_submit', current_session_id=session_detail[0]) }}"
+                        enctype="multipart/form-data">
+                        
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="sessionname" class="form-label"><strong>Session Name</strong></label>
+                                <input type="text" class="form-control" id="sessionname" name="sessionname"value="{{session_detail[1]}}" readonly >
+                            </div>                            
+                            
+
+                            <div class="col-md-6 mb-3">
+                                <label for="course_type_id" class="form-label"><strong>Type</strong></label>
+                                <select class="form-select" id="course_type_id" name="course_type_id" >
+                                    <option selected value="{{session_detail[8]}} ">{{ session_detail[3] }}</option>                
+                                </select>
+                            </div>
+                           
+                           
+                            <div class="col-md-6 mb-3">
+                                <label for="schedule_time" class="form-label"><strong>Schedule time</strong></label>
+                                <input type="datetime-local" class="form-control" id="schedule_time" name="schedule_time" value="{{session_detail[4]|default('', true)}}">
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="location_id" class="form-label"><strong>Location</strong></label>
+                                <select class="form-select" id="location_id" name="location_id" >
+                                    <option selected value="{{session_detail[9]}}">{{ session_detail[5]}}</option>
+                                    {%for location in location_list%}
+                                    <option value={{location[0]}}>{{location[1]}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="price" class="form-label"><strong>Price</strong></label>
+                                <input type="number" class="form-control" id="price" name="price" value="{{ initial_price}}"  readonly>
+                            </div> 
+                            <div class="col-md-6 mb-3">
+                                <label for="capacity" class="form-label"><strong>Maximum number of student</strong></label>
+                                <input type="number" class="form-control" id="capacity" name="capacity" value="{{session_detail[7]}}"  readonly>
+                            </div> 
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="description" class="form-label"><strong>Description</strong></label>
+                            <textarea class="form-control" id="description" name="description" rows="4" style="min-height: 100px; overflow-y: auto;">{{ session_detail[2]|default('', true)}}</textarea>
+                        </div>
+
+                        <div class="mb-4 d-flex justify-content-between">
+                            <a href="{{ url_for('trainer_manage_session.display_session') }}"
+                                class="btn btn-primary my-3 "><strong>← Back to List</strong></a>
+                            <button type="submit" class="btn btn-success my-3"><strong>Update Details</strong>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

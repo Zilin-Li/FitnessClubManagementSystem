@@ -1,0 +1,100 @@
+{% extends 'components/base.html' %}
+
+{% block title %}Attendance Report for Individual{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+  <h1 class="mb-4">Attendance Report for Individual</h1>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Attendance Percentage</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in data %}
+        <tr>
+          <td>{{ row['first_name'] }}</td>
+          <td>{{ row['last_name'] }}</td>
+          <td>{{ row['percentage'] }}%</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div id="attendanceChart" style="width: 100%; height: 400px;"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<script>
+  // Initialize ECharts instance
+  var myChart = echarts.init(document.getElementById('attendanceChart'));
+
+  // Extracting data from the HTML table
+  var names = [];
+  var percentages = [];
+  {% for row in data %}
+  names.push('{{ row['first_name'] }} {{ row['last_name'] }}');
+  percentages.push({{ row['percentage'] }});
+  {% endfor %}
+
+  // Calculate average attendance percentage
+  var totalPercentage = percentages.reduce((acc, cur) => acc + cur, 0);
+  var averagePercentage = totalPercentage / percentages.length;
+
+  // Specify chart options
+  var option = {
+    title: {
+      text: 'The Overall Individual Attendance Report'
+    },
+    tooltip: {
+      trigger: 'axis',
+      formatter: function (params) {
+        var value = params[0].value;
+        return 'Average: ' + value.toFixed(2) + '%';
+      }
+    },
+    yAxis: {
+      type: 'category',
+      data: names,
+      inverse: true, // Invert the axis
+    },
+    xAxis: {
+      type: 'value',
+      min: 0,
+      max: 100,
+      axisLine: {
+        onZero: false
+      },
+      axisLabel: {
+        formatter: '{value}%'
+      },
+      splitLine: {
+        show: false
+      }
+    },
+    series: [{
+      name: 'Attendance Percentage',
+      type: 'bar', // Change to bar chart
+      data: percentages
+    }, {
+      name: 'Average',
+      type: 'line',
+      symbol: 'none',
+      lineStyle: {
+        color: 'red', // Set the color to red
+        type: 'dashed',
+        width: 3 // Increase the line width
+      },
+      data: [{ value: averagePercentage, itemStyle: { color: 'red' } }, { value: averagePercentage }] // Ensure the line is drawn across the entire chart
+    }]
+  };
+
+  // Set options and render chart
+  myChart.setOption(option);
+</script>
+{% endblock %}

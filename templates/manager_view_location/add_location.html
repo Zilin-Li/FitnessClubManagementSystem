@@ -1,0 +1,26 @@
+{% extends 'components/base.html' %}
+{% block title %} List Locations {% endblock %}
+{% block content %}
+
+<div class="container mt-5 mb-5">
+  <h1>Add Location</h1>
+
+  <!-- error message -->
+  {% include 'components/error.html' %}
+
+  <form action="{{ url_for('manager.add_location') }}" method="POST">
+    <div class="mb-3">
+      <label for="location_name" class="form-label"><strong>Location Name:</strong></label>
+      <input type="text" class="form-control" id="location_name" name="location_name">
+    </div>
+
+    <div class="mb-3">
+      <label for="location_description" class="form-label"><strong>Location Address:</strong></label>
+      <textarea class="form-control" id="location_description" name="location_description"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+{% endblock %}
